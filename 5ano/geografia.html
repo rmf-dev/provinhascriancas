@@ -1,1 +1,379 @@
 
+quiz_interativo_de_geografia.html
+
+100%
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de Geografia - 5º Ano</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-orange-50 to-amber-100 min-h-screen py-8 px-4 text-slate-800">
+
+    <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+        
+        <!-- Header -->
+        <div class="bg-orange-600 text-white p-6 text-center">
+            <h1 class="text-2xl md:text-3xl font-bold">Revisão de Geografia - 5º Ano</h1>
+            <p class="text-orange-100 mt-1">Responda às 20 questões abaixo e teste seus conhecimentos!</p>
+        </div>
+
+        <!-- Quiz Form Screen -->
+        <div id="quiz-container" class="p-6 md:p-8">
+            <form id="quiz-form" class="space-y-8">
+                
+                <!-- Questions injected dynamically via JS -->
+                <div id="questions-list" class="space-y-6"></div>
+
+                <!-- Submit Button -->
+                <div class="text-center pt-4">
+                    <button type="button" onclick="calcularNota()" class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition duration-200 transform hover:scale-105 cursor-pointer">
+                        Enviar Respostas e Ver Nota
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Results Screen (Hidden initially) -->
+        <div id="result-container" class="hidden p-8 text-center space-y-6">
+            <div class="inline-block p-4 bg-orange-100 text-orange-600 rounded-full text-5xl mb-2">🏆</div>
+            <h2 class="text-3xl font-bold text-slate-800">Resultado da Avaliação</h2>
+            
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 max-w-md mx-auto">
+                <p class="text-lg text-slate-600">Sua nota final é:</p>
+                <div id="score-display" class="text-5xl font-extrabold text-orange-600 my-3">0 / 20</div>
+                <p id="feedback-message" class="text-slate-700 font-medium"></p>
+            </div>
+
+            <div class="pt-4 flex justify-center gap-4">
+                <button type="button" onclick="reiniciarQuiz()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2.5 px-6 rounded-xl transition duration-200 cursor-pointer">
+                    Refazer Quiz
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const questoes = [
+            {
+                id: 1,
+                pergunta: "1. O que entendemos por 'Rede Urbana'?",
+                opcoes: [
+                    "Apenas o conjunto de ruas asfaltadas de uma cidade grande.",
+                    "O sistema formado pela interligação entre as cidades, através dos fluxos de pessoas, mercadorias, capitais e informações.",
+                    "Uma rede de computadores que liga as prefeituras de um estado.",
+                    "O caminho que os rios fazem ao atravessar as áreas urbanas."
+                ],
+                resposta: 1
+            },
+            {
+                id: 2,
+                pergunta: "2. As cidades exercem diferentes graus de influência umas sobre as outras. Como chamamos essa relação de comando e subordinação entre os centros urbanos?",
+                opcoes: [
+                    "Globalização rural",
+                    "Hierarquia urbana",
+                    "Cidadania regional",
+                    "Migração pendular"
+                ],
+                resposta: 1
+            },
+            {
+                id: 3,
+                pergunta: "3. No topo da hierarquia urbana brasileira, exercendo influência sobre todo o território nacional, encontram-se as chamadas:",
+                opcoes: [
+                    "Metrópoles nacionais (ou grandes metrópoles)",
+                    "Capitais municipais de pequeno porte",
+                    "Vilas históricas",
+                    "Cidades locais"
+                ],
+                resposta: 0
+            },
+            {
+                id: 4,
+                pergunta: "4. O fenômeno em que milhares de trabalhadores saem de uma cidade vizinha para estudar ou trabalhar em um polo maior todos os dias (e retornam para dormir) é chamado de:",
+                opcoes: [
+                    "Êxodo rural",
+                    "Nomadismo urbano",
+                    "Movimento pendular",
+                    "Transumância"
+                ],
+                resposta: 2
+            },
+            {
+                id: 5,
+                pergunta: "5. Quando duas ou mais cidades crescem tanto que suas manchas urbanas se unem, formando uma única mancha construída, o conceito geográfico adequado é:",
+                opcoes: [
+                    "Cidade planejada",
+                    "Conurbação",
+                    "Parque industrial",
+                    "Região agrícola"
+                ],
+                resposta: 1
+            },
+            {
+                id: 6,
+                pergunta: "6. As metrópoles que possuem maior projeção internacional e conexões diretas com o exterior são consideradas:",
+                opcoes: [
+                    "Vilas globais",
+                    "Metrópoles globais (ou cidades globais)",
+                    "Cidades fantasmas",
+                    "Municípios isolados"
+                ],
+                resposta: 1
+            },
+            {
+                id: 7,
+                pergunta: "7. O processo de inchaço das cidades e crescimento rápido e muitas vezes desordenado da população urbana em detrimento do campo é conhecido como:",
+                opcoes: [
+                    "Industrialização",
+                    "Urbanização",
+                    "Agronegócio",
+                    "Metodologia espacial"
+                ],
+                resposta: 1
+            },
+            {
+                id: 8,
+                pergunta: "8. De que maneira a ciência e a tecnologia impactam diretamente o espaço geográfico e as cidades?",
+                opcoes: [
+                    "Acelerando os meios de transporte, comunicação e transformando as atividades econômicas.",
+                    "Impedindo que as pessoas conversem à distância.",
+                    "Tornando os centros urbanos totalmente independentes de tecnologia.",
+                    "Acabando com a necessidade de indústrias e comércios."
+                ],
+                resposta: 0
+            },
+            {
+                id: 9,
+                pergunta: "9. A evolução dos meios de transporte e de comunicação provocou um fenômeno na Geografia conhecido como:",
+                opcoes: [
+                    "Isolamento espacial",
+                    "Encolhimento temporal",
+                    "\"Encolhimento\" ou compressão do mundo (aproximação entre lugares distantes)",
+                    "Estagnação geográfica"
+                ],
+                resposta: 2
+            },
+            {
+                id: 10,
+                pergunta: "10. Os avanços tecnológicos aplicados na agropecuária brasileira deram origem a um modelo altamente tecnificado, produtivo e integrado à indústria, conhecido popularmente como:",
+                opcoes: [
+                    "Agricultura de subsistência manual",
+                    "Agronegócio",
+                    "Extrativismo vegetal tradicional",
+                    "Pecuária de corte extensiva sem tecnologia"
+                ],
+                resposta: 1
+            },
+            {
+                id: 11,
+                pergunta: "11. A utilização de imagens de satélite, GPS e softwares de mapeamento na agricultura e na gestão das cidades é um exemplo de:",
+                opcoes: [
+                    "Retrocesso técnico",
+                    "Uso de ferramentas puramente manuais",
+                    "Inovação tecnológica aplicada ao espaço",
+                    "Falta de planejamento urbano"
+                ],
+                resposta: 2
+            },
+            {
+                id: 12,
+                pergunta: "12. Com a expansão da internet de alta velocidade e dos smartphones, qual setor da economia urbana mais cresceu nas últimas décadas?",
+                opcoes: [
+                    "O extrativismo mineral artesanal",
+                    "O comércio eletrônico (e-commerce) e prestação de serviços digitais",
+                    "A produção exclusiva de carvão vegetal",
+                    "A agricultura familiar de subsistência"
+                ],
+                resposta: 1
+            },
+            {
+                id: 13,
+                pergunta: "13. A automação industrial e o uso de robôs nas fábricas modernas têm como principal consequência:",
+                opcoes: [
+                    "A diminuição da velocidade de produção",
+                    "O aumento do tempo de trabalho braçal humano",
+                    "O aumento da eficiência e mudanças nas exigências de qualificação dos trabalhadores",
+                    "A substituição completa de todas as cidades por fazendas"
+                ],
+                resposta: 2
+            },
+            {
+                id: 14,
+                pergunta: "14. O que são fontes de energia renováveis?",
+                opcoes: [
+                    "Fontes que se esgotam rapidamente após o primeiro uso, como o petróleo.",
+                    "Fontes que vêm exclusivamente de minerais radioativos.",
+                    "Fontes que se regeneram na natureza em curto prazo e não se esgotam com o uso humano (ou têm fluxo contínuo).",
+                    "Energias que só podem ser usadas à noite."
+                ],
+                resposta: 2
+            },
+            {
+                id: 15,
+                pergunta: "15. Qual é a principal fonte de energia utilizada para a geração de eletricidade no Brasil?",
+                opcoes: [
+                    "Energia nuclear",
+                    "Energia hidráulica (hidrelétricas)",
+                    "Carvão mineral",
+                    "Energia maremotriz"
+                ],
+                resposta: 1
+            },
+            {
+                id: 16,
+                pergunta: "16. O petróleo, o carvão mineral e o gás natural são classificados como combustíveis:",
+                opcoes: [
+                    "Renováveis e limpos",
+                    "Fósseis e não renováveis",
+                    "Alternativos e inesgotáveis",
+                    "Orgânicos e artificiais"
+                ],
+                resposta: 1
+            },
+            {
+                id: 17,
+                pergunta: "17. O vento é uma fonte limpa e renovável que gera eletricidade por meio de aerogeradores. Estamos falando da energia:",
+                opcoes: [
+                    "Solar",
+                    "Geotérmica",
+                    "Eólica",
+                    "Termelétrica"
+                ],
+                resposta: 2
+            },
+            {
+                id: 18,
+                pergunta: "18. A energia solar fotovoltaica transforma a luz do Sol em energia elétrica através de:",
+                opcoes: [
+                    "Grandes caldeiras a carvão",
+                    "Painéis solares (placas fotovoltaicas)",
+                    "Pás eólicas gigantes",
+                    "Termas subterrâneas"
+                ],
+                resposta: 1
+            },
+            {
+                id: 19,
+                pergunta: "19. Quais são as principais desvantagens do uso de combustíveis fósseis (como o petróleo e o carvão)?",
+                opcoes: [
+                    "Produzem muita energia de forma barata e limpa.",
+                    "Poluem a atmosfera com gases de efeito estufa e são finitos (acabam um dia).",
+                    "Não causam nenhum impacto ambiental e duram para sempre.",
+                    "Só podem ser encontrados em pequenas ilhas desertas."
+                ],
+                resposta: 1
+            },
+            {
+                id: 20,
+                pergunta: "20. O termo \"matriz energética\" refere-se a:",
+                opcoes: [
+                    "A quantidade de lixo produzida por uma cidade.",
+                    "O conjunto de fontes de energia disponíveis em um país ou no mundo para abastecer as necessidades da sociedade.",
+                    "O mapa que mostra onde estão localizadas as fábricas de carros elétricos.",
+                    "A quantidade de água gasta pelas indústrias em um ano."
+                ],
+                resposta: 1
+            }
+        ];
+
+        // Function to render questions into the DOM
+        function renderizarQuestoes() {
+            const container = document.getElementById('questions-list');
+            let html = '';
+
+            questoes.forEach((q, index) => {
+                html += `
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 shadow-sm">
+                        <p class="font-semibold text-slate-800 mb-3">${q.pergunta}</p>
+                        <div class="space-y-2">
+                `;
+
+                q.opcoes.forEach((opcao, optIndex) => {
+                    const letra = String.fromCharCode(65 + optIndex); // A, B, C, D
+                    html += `
+                        <label class="flex items-start gap-3 p-2.5 rounded-lg hover:bg-orange-50 cursor-pointer transition border border-transparent hover:border-orange-200">
+                            <input type="radio" name="q${index}" value="${optIndex}" class="mt-1 text-orange-600 focus:ring-orange-500">
+                            <span class="text-sm text-slate-700"><strong>${letra})</strong> ${opcao}</span>
+                        </label>
+                    `;
+                });
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Function to calculate score and switch screens
+        function calcularNota() {
+            let acertos = 0;
+            let respondidas = 0;
+
+            questoes.forEach((q, index) => {
+                const selecionada = document.querySelector(`input[name="q${index}"]:checked`);
+                if (selecionada) {
+                    respondidas++;
+                    if (parseInt(selecionada.value) === q.resposta) {
+                        acertos++;
+                    }
+                }
+            });
+
+            if (respondidas < questoes.length) {
+                // Custom non-intrusive notification message instead of alert()
+                alert(`Você respondeu ${respondidas} de ${questoes.length} questões. Por favor, responda todas antes de enviar!`);
+                return;
+            }
+
+            // Calculate grade out of 10 or show out of 20
+            const notaDez = ((acertos / 20) * 10).toFixed(1);
+
+            // Hide quiz container and show result container
+            document.getElementById('quiz-container').classList.add('hidden');
+            document.getElementById('result-container').classList.remove('hidden');
+
+            document.getElementById('score-display').innerText = `${acertos} / 20 (${notaDez})`;
+
+            let mensagem = "";
+            if (acertos === 20) {
+                mensagem = "Perfeito! Nota máxima! Você dominou completamente a matéria!";
+            } else if (acertos >= 15) {
+                mensagem = "Excelente trabalho! Ótimo domínio dos conteúdos de geografia.";
+            } else if (acertos >= 10) {
+                mensagem = "Bom esforço! Vale a pena dar uma revisada rápida nos tópicos que erraste.";
+            } else {
+                mensagem = "Continue estudando e tente novamente! A prática leva à perfeição.";
+            }
+            document.getElementById('feedback-message').innerText = mensagem;
+
+            // Scroll to top of results
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Function to restart quiz
+        function reiniciarQuiz() {
+            document.getElementById('quiz-form').reset();
+            document.getElementById('result-container').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            renderizarQuestoes();
+        };
+    </script>
+
+</body>
+</html>
+Exibindo quiz_interativo_de_geografia.html…
